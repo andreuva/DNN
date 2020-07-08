@@ -1,11 +1,11 @@
-import pickle, bz2, glob
+import pickle, glob
 
-datasets = sorted(glob.glob('compresed*'))
+datasets = sorted(glob.glob('*dataset*'))
 global_dataset = {}
 
 for filename in datasets:
-	file = bz2.BZ2File(filename, 'rb')
-	dict_dataset = pickle.load( file, encoding="latin1" )
+	file = open( "dataset_pickle.p", "wb" )
+	dict_dataset = pickle.load( file )
 	file.close()
 
 	for key in dict_dataset.keys():
@@ -13,7 +13,3 @@ for filename in datasets:
 			global_dataset[key].append(dict_dataset[key])
 		else:
 			global_dataset[key] = dict_dataset[key]
-
-sfile = bz2.BZ2File('dataset_pickle_bz2.p', 'w')
-pickle.dump( global_dataset, sfile )
-sfile.close()

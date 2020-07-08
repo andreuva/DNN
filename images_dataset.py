@@ -4,7 +4,7 @@ import pynbody.plot as pp
 import pynbody.plot.sph
 import sys, os, glob, pickle
 import matplotlib.pylab as plt
-import bz2, gc
+import gc
 
 names =  sorted(glob.glob('/storage/projects/can43/data/NIHAO/g*'))
 num_galax = len(names)
@@ -23,7 +23,7 @@ features_dust = []
 features_nodust = []
 features_names = []
 labels = []
-done = 60
+done = 0
 
 for simname in names[done:]:
 	try:
@@ -102,7 +102,8 @@ for simname in names[done:]:
 					'features_names':features_names,
 					'labels': labels}
 
-		sfile = bz2.BZ2File('compresed_dataset_galaxies_pickle_'+str(done)+'.p', 'w')
+		#sfile = bz2.BZ2File('compresed_dataset_galaxies_pickle_'+str(done)+'.p', 'w')
+		sfile = open( 'dataset_galaxies_pickle_'+str(done)+'.p', "wb" )
 		pickle.dump( dataset, sfile )
 		sfile.close()
 
@@ -119,7 +120,8 @@ dataset = {	'features_dust':features_dust,
 			'features_names':features_names,
 			'labels': labels}
 
-sfile = bz2.BZ2File('compresed_dataset_galaxies_pickle_'+str(done)+'.p', 'w')
+#sfile = bz2.BZ2File('compresed_dataset_galaxies_pickle_'+str(done)+'.p', 'w')
+sfile = open( 'dataset_galaxies_pickle_'+str(done)+'.p', "wb" )
 pickle.dump( dataset, sfile )
 sfile.close()
 
