@@ -1,7 +1,7 @@
 import pickle, bz2, glob, os
 import numpy as np
 
-datasets = sorted(glob.glob('../data/dataset*'))
+datasets = sorted(glob.glob('../../data/dataset*'))
 
 for filename in datasets[:2]:
 	file = bz2.BZ2File(filename, 'rb')
