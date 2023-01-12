@@ -2,7 +2,7 @@ import pickle, glob
 import numpy as np
 import os
 
-datasets = sorted(glob.glob('../data/*pickle*'))
+datasets = sorted(glob.glob('../../data/*pickle*'))
 global_dataset = {}
 
 for filename in datasets:
@@ -10,7 +10,7 @@ for filename in datasets:
 	dict_dataset = pickle.load( file )
 	file.close()
 
-	np.savez_compressed('../data/dataset'+filename[31:]+'.npz',
+	np.savez_compressed('../../data/dataset'+filename[31:]+'.npz',
 		x_dust = dict_dataset['features_dust'],
 		x_nodust = dict_dataset['features_nodust'],
 		y = dict_dataset['labels'],
