@@ -1,8 +1,9 @@
 import numpy as np
 import torch
+import torchvision as tv
 import glob
-import cv2
 from sklearn.preprocessing import normalize
+from augmentation import *
 
 class galaxy_images(torch.utils.data.Dataset):
     def __init__(self, data_path, train=True, size_x=128, size_y=128, train_split=0.85, rand_seed=666):
@@ -20,7 +21,14 @@ class galaxy_images(torch.utils.data.Dataset):
                     self.x_nodust = data['x_nodust']
                     self.y        = data['y']
                     self.ids      = data['id']
+
         self.ids = np.array(self.ids, dtype=str)
+        print(self.x_nodust.dtype)
+        print(self.x_nodust.shape)
+        print(self.x_nodust.max())
+        print(self.x_nodust.min())
+        self.x_nodust = self.x_nodust.astype(np.float32)
+        self.y = self.y.astype(np.float32)
 
         print('Loaded data from ', len(self.files_datasets), ' files')
         print('Total number of images: ', len(self.y))
@@ -55,7 +63,8 @@ class galaxy_images(torch.utils.data.Dataset):
 
         # Generate random indexes to chose train and validation galaxies
         np.random.seed(rand_seed)
-        randindexes = np.random.sample(range(np.size(uniqueids)), np.size(uniqueids))
+        randindexes = np.arange(np.size(uniqueids))
+        np.random.shuffle(randindexes)
 
         # Get masks to select training and validation samples
         if train:
@@ -67,7 +76,9 @@ class galaxy_images(torch.utils.data.Dataset):
         self.y_norm = normalize(self.y, axis=1)
 
         # resize the images to the desired size
-        self.x_nodust = np.array([cv2.resize(img, (size_x, size_y), interpolation=cv2.INTER_AREA) for img in self.x_nodust])
+        resize = tv.transforms.Resize((size_x, size_y))
+        ToPIL = tv.transforms.ToPILImage()
+        self.x_nodust = np.array([resize(ToPIL(img)) for img in self.x_nodust])
 
 
     def __getitem__(self, index):

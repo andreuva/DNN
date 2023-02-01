@@ -1,3 +1,17 @@
 {
-    
+
+    "size_x" : 128,
+    "size_y" : 128,
+
+    "gpu" : 0,
+    "readir" : "../data/dnn/data/",
+    "group_suffix" : "",
+    "dataset" : "",
+
+    "batch_size" : 8192,
+    "epochs" : 2050,
+    "learning_rate" : 1e-3,
+    "step_size_scheduler" : 150,
+    "gamma_scheduler" : 0.90
+
 }
